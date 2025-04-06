@@ -1,49 +1,49 @@
 name: Deploy to GitHub Pages (Subfolder)
 
 on:
-  workflow_dispatch:
   push:
     branches:
-      - main  # Trigger on push to 'main' branch
+      - main  # Trigger workflow on push to 'main' branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repository code
-      - uses: actions/checkout@v2
+      # Step 1: Checkout the repository
+      - name: Checkout Code
+        uses: actions/checkout@v2
 
-      # Step 2: Set up Flutter using the correct action
+      # Step 2: Set up Flutter
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.0.x'  # Specify the Flutter version you need (latest stable)
+          flutter-version: '3.0.x'  # Specify Flutter version
           channel: 'stable'
 
-      # Step 3: Change directory to your Flutter project (in front_end/twwhdr_leaderboard)
-      - name: Change directory to Flutter project
-        run: cd front_end/twwhdr_leaderboard  # Change to the subfolder where your Flutter project is
+      # Step 3: Change directory to where the Flutter app is located
+      # - name: Change directory to Flutter app
+      #   run: cd front_end/twwhdr_leaderboard  # This step is crucial
 
-      # Step 4: Enable Flutter Web
+      # Step 4: Enable Flutter Web (if necessary)
       - name: Enable Flutter Web
         run: flutter config --enable-web
 
-      # Step 5: Install dependencies for Flutter
+      # Step 5: Install dependencies
       - name: Install dependencies
         run: flutter pub get
 
-      # Step 6: Build Flutter Web app with base href set for subfolder
+      # Step 6: Build Flutter Web app with base href (adjust path if needed)
       - name: Build Flutter Web app
-        run: flutter build web --base-href "/repository-name/subfolder/"
+        run: flutter build web --base-href "/your-repository/subfolder/"  # Adjust as needed
 
       # Step 7: Deploy to GitHub Pages
-      - name: Deploy to GitHub Pages (Subfolder)
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build/web  # This assumes you're still in the correct directory
+          publish_dir: ./build/web  # Path to the web build output
           force_orphan: true
           user_name: 'github-ci[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
-          commit_message: 'Deploy Flutter Web app to GitHub Pages (Subfolder)'
+          commit_message: 'Deploy Flutter Web app to GitHub Pages'

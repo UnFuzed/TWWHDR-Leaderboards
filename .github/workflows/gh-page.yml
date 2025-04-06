@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages (Subfolder)
 on:
   push:
     branches:
-      - main  # Trigger workflow on push to 'main' branch
+      - main 
 
 jobs:
   deploy:
@@ -16,26 +16,32 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.29.0'  
-          channel: 'stable' 
+          flutter-version: '3.29.0'
+          channel: 'stable'
 
       - name: Install dependencies
         run: flutter pub get
-        working-directory: ./front_end/twwhdr_leaderboard  
+        working-directory: ./front_end/twwhdr_leaderboard
 
       - name: Enable Flutter Web
         run: flutter config --enable-web
         working-directory: ./front_end/twwhdr_leaderboard 
 
       - name: Build Flutter Web app
-        run: flutter build web --base-href "/your-repository/subfolder/" 
-        working-directory: ./front_end/twwhdr_leaderboard  
+        run: flutter build web --base-href "/TWWHDR_LeaderBoards/"
+        working-directory: ./front_end/twwhdr_leaderboard 
+
+
+      - name: Setup Git remote
+        run: |
+          git remote set-url origin https://github.com/${{ github.repository }}.git
+          git fetch origin
 
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }} 
           publish_dir: ./front_end/twwhdr_leaderboard/build/web  
           force_orphan: true
           user_name: 'github-ci[bot]'

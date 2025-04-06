@@ -1,0 +1,29 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - "main"  # Trigger the workflow when pushing to the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Use Ubuntu for the CI environment
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Flutter
+        uses: subosito/flutter-actions@v1
+
+      - name: Install dependencies and build web
+        run: |
+          flutter pub get  # Install dependencies
+          flutter build web  # Build the web app
+
+      - name: Deploy to GitHub Pages
+        uses: bluefireteam/flutter-gh-pages@v7
+        with:
+          build-directory: front_end\twwhdr_leaderboard\build\web
+          branch: gh-pages 
+          target-folder: ./  

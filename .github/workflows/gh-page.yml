@@ -3,15 +3,17 @@ name: Deploy to GitHub Pages (Subfolder)
 on:
   push:
     branches:
-      - main  
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
+  
       - name: Checkout Code
         uses: actions/checkout@v2
+
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
@@ -19,29 +21,35 @@ jobs:
           flutter-version: '3.29.0' 
           channel: 'stable'
 
+  
       - name: Install dependencies
         run: flutter pub get
-        working-directory: ./front_end/twwhdr_leaderboard
+        working-directory: ./front_end/twwhdr_leaderboard 
 
-
+  
       - name: Enable Flutter Web
         run: flutter config --enable-web
-        working-directory: ./front_end/twwhdr_leaderboard
-
+        working-directory: ./front_end/twwhdr_leaderboard 
 
       - name: Build Flutter Web app
-        run: flutter build web --base-href "/TWWHDR-Leaderboards/"
-        working-directory: ./front_end/twwhdr_leaderboard
+        run: flutter build web --base-href "/TWWHDR_Leaderboard/subfolder/" 
+        working-directory: ./front_end/twwhdr_leaderboard  
+
+      - name: Setup Git remote
+        run: |
+          git remote set-url origin https://github.com/${{ github.repository }}.git
+          git fetch origin
 
       - name: Modify base href in index.html
         run: |
           sed -i 's|<base href="/">|<base href="/TWWHDR-Leaderboards/">|' ./front_end/twwhdr_leaderboard/build/web/index.html
 
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./front_end/twwhdr_leaderboard/build/web
+          github_token: ${{ secrets.GH_TOKEN }} 
+          publish_dir: ./front_end/twwhdr_leaderboard/build/web  
           force_orphan: true
           user_name: 'github-ci[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'

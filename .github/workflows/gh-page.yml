@@ -20,7 +20,7 @@ jobs:
           channel: 'stable'  
 
       - name: Change directory to Flutter project
-        run: cd front_end/twwhdr_leaderborad
+        run: cd front_end/twwhdr_leaderboard
 
       - name: Enable Flutter Web
         run: flutter config --enable-web

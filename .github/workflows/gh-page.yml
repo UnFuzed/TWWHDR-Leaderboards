@@ -4,42 +4,46 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main 
+      - main  # Trigger on push to 'main' branch
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     steps:
+      # Step 1: Checkout the repository code
       - uses: actions/checkout@v2
 
+      # Step 2: Set up Flutter using the correct action
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.0.x'  
-          channel: 'stable'  
+          flutter-version: '3.0.x'  # Specify the Flutter version you need (latest stable)
+          channel: 'stable'
 
+      # Step 3: Change directory to your Flutter project (in front_end/twwhdr_leaderboard)
       - name: Change directory to Flutter project
-        run: cd front_end/twwhdr_leaderboard
+        run: cd front_end/twwhdr_leaderboard  # Change to the subfolder where your Flutter project is
 
+      # Step 4: Enable Flutter Web
       - name: Enable Flutter Web
         run: flutter config --enable-web
 
+      # Step 5: Install dependencies for Flutter
       - name: Install dependencies
         run: flutter pub get
 
+      # Step 6: Build Flutter Web app with base href set for subfolder
       - name: Build Flutter Web app
-        run: flutter build web --base-href "/TWWHDR-Leaderboard/"
+        run: flutter build web --base-href "/repository-name/subfolder/"
 
-      - name: List contents of build/web
-        run: ls -la ./build/web 
-
+      # Step 7: Deploy to GitHub Pages
       - name: Deploy to GitHub Pages (Subfolder)
-        uses: peaceiris/actions-gh-pages@v3  
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}  
-          publish_dir: ./build/web  
-          force_orphan: true 
-          user_name: 'github-ci[bot]' 
-          user_email: 'github-actions[bot]@users.noreply.github.com'  
-          commit_message: 'Deploy Flutter Web app to GitHub Pages (Subfolder)'  
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/web  # This assumes you're still in the correct directory
+          force_orphan: true
+          user_name: 'github-ci[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: 'Deploy Flutter Web app to GitHub Pages (Subfolder)'

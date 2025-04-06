@@ -32,6 +32,7 @@ jobs:
       # Step 5: Install dependencies
       - name: Install dependencies
         run: flutter pub get
+        working-directory: /front_end/twwhdr_leaderboard
 
       # Step 6: Build Flutter Web app with base href (adjust path if needed)
       - name: Build Flutter Web app

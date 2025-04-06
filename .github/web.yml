@@ -3,11 +3,11 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - "main"  # Trigger the workflow when pushing to the main branch
+      - "main" 
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Use Ubuntu for the CI environment
+    runs-on: ubuntu-latest 
 
     steps:
       - name: Checkout code
@@ -21,9 +21,20 @@ jobs:
           flutter pub get  # Install dependencies
           flutter build web  # Build the web app
 
+      - name: Check if gh-pages branch exists and create it if not
+        run: |
+          git fetch
+          git checkout gh-pages || git checkout --orphan gh-pages
+
       - name: Deploy to GitHub Pages
         uses: bluefireteam/flutter-gh-pages@v7
         with:
-          build-directory: front_end\twwhdr_leaderboard\build\web
+          build-directory: front_end/twwhdr_leaderboard/build/web
           branch: gh-pages 
-          target-folder: ./  
+          target-folder: ./ 
+
+      - name: Push gh-pages branch
+        run: |
+          git add -A
+          git commit -m "Deploy Flutter web app"
+          git push origin gh-pages

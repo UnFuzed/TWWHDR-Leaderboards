@@ -19,6 +19,9 @@ jobs:
           flutter-version: '3.0.x'  
           channel: 'stable'  
 
+      - name: Change directory to Flutter project
+        run: cd front_end/twwhdr_leaderborad
+
       - name: Enable Flutter Web
         run: flutter config --enable-web
 
@@ -26,7 +29,7 @@ jobs:
         run: flutter pub get
 
       - name: Build Flutter Web app
-        run: flutter build web --base-href "/repository-name/subfolder/"
+        run: flutter build web --base-href "/TWWHDR-Leaderboard/"
 
       - name: List contents of build/web
         run: ls -la ./build/web 

@@ -21,29 +21,27 @@ jobs:
           flutter-version: '3.0.x'  # Specify Flutter version
           channel: 'stable'
 
-      # Step 3: Change directory to where the Flutter app is located
-      # - name: Change directory to Flutter app
-      #   run: cd front_end/twwhdr_leaderboard  # This step is crucial
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: flutter pub get
+        working-directory: ./front_end/twwhdr_leaderboard  # Make sure we are in the right directory
 
       # Step 4: Enable Flutter Web (if necessary)
       - name: Enable Flutter Web
         run: flutter config --enable-web
+        working-directory: ./front_end/twwhdr_leaderboard  # Ensure we're in the correct directory
 
-      # Step 5: Install dependencies
-      - name: Install dependencies
-        run: flutter pub get
-        working-directory: ./front_end/twwhdr_leaderboard
-
-      # Step 6: Build Flutter Web app with base href (adjust path if needed)
+      # Step 5: Build Flutter Web app with base href (adjust path if needed)
       - name: Build Flutter Web app
         run: flutter build web --base-href "/your-repository/subfolder/"  # Adjust as needed
+        working-directory: ./front_end/twwhdr_leaderboard  # Ensure we're in the correct directory
 
-      # Step 7: Deploy to GitHub Pages
+      # Step 6: Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build/web  # Path to the web build output
+          publish_dir: ./front_end/twwhdr_leaderboard/build/web  # Make sure to specify the right path to the build output
           force_orphan: true
           user_name: 'github-ci[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'

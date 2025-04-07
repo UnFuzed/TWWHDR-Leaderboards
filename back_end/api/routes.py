@@ -8,6 +8,6 @@ def before_request() -> None:
         if "application/json" not in request.content_type:
             abort(400, description=f"Request type must be application/json, type was {request.content_type}")
        
-@main.route('/')
-def home():
+@main.route('/', methods=["POST"])
+def create_user() -> tuple[int, str]:
     return 'Hello World'

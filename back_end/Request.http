@@ -1,0 +1,21 @@
+# POST http://localhost:5000/create_user HTTP/1.1
+# Content-Type: application/json
+
+# {
+#   "user_name": "UnFuzed",
+#   "hashed_password": "testttt",
+#   "role": "admin"
+# }
+
+# DELETE http://localhost:5000/delete_user/4 HTTP/1.1
+# Content-Type: application/json
+
+PUT http://localhost:5000/update_user/7 HTTP/1.1
+Content-Type: application/json
+
+{
+  "user_name": "UnFuzed",
+  "hashed_password": "6cb75f652a9b52798eb6cf2201057c73", 
+  "role": "owner"
+}
+

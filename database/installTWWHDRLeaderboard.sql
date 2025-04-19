@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS TWWHDR_Leaderboard;
+-- DROP DATABASE IF EXISTS TWWHDR_Leaderboard;
 
-CREATE DATABASE TWWHDR_Leaderboard;
+-- CREATE DATABASE TWWHDR_Leaderboard;
 
 CREATE TYPE user_role AS ENUM ('admin', 'player', 'owner');
 CREATE TYPE week_type AS ENUM ('normal', 'spoiler');
@@ -8,7 +8,7 @@ CREATE TYPE week_type AS ENUM ('normal', 'spoiler');
 CREATE TABLE Users (
     user_id SERIAL PRIMARY KEY,
     user_name VARCHAR(50) NOT NULL,
-    hashed_password VARCHAR(100) NOT NULL,
+    password VARCHAR NOT NULL,
     role USER_ROLE NOT NULL
 );
 

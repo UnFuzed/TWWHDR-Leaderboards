@@ -4,6 +4,7 @@ from sqlalchemy import Column, Integer, String, DateTime, Time, ForeignKey, Enum
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm.relationships import _RelationshipDeclared
 from api import db
+from werkzeug.security import check_password_hash, generate_password_hash
 
 class Role(enum.Enum):
     admin: str = "admin"
@@ -29,7 +30,7 @@ class User(db.Model):
 
     user_id = Column(Integer, primary_key=True)
     user_name = Column(String(50), nullable=False)
-    hashed_password = Column(String(100), nullable=False)
+    password = Column(String(100), nullable=False)
     role = Column(PgEnum(Role), nullable=False)
 
     records: _RelationshipDeclared[Any] = relationship("Record", backref="user", cascade="all, delete", passive_deletes=True)
@@ -38,9 +39,15 @@ class User(db.Model):
         return {
             "user_id" : self.user_id,
             "user_name" : self.user_name,
-            "hashed_password" : self.hashed_password,
+            "password" : self.password,
             "role" : self.role.name if self.role else None
         }
+    
+    def set_password(self, password: str) -> None:
+        self.password: str = generate_password_hash(password)
+    
+    def check_password(self, password) -> None:
+        return check_password_hash(self.password, password)
     
 class Week(db.Model):
     __tablename__: str = 'weeks' 

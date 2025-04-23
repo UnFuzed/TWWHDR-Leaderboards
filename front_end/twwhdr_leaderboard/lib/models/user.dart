@@ -5,8 +5,4 @@ class User {
   late String userName;
   late String password;
   late UserRole role;
-
-
-  
-
 }

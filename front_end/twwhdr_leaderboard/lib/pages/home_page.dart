@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
           IconButton
           (
             onPressed: () {
-              Navigator.pushNamed(context, routes.homePage);
+              Navigator.pushNamed(context, routes.createUserPage);
             }, 
             icon: Icon(Icons.account_circle_rounded))
         ],

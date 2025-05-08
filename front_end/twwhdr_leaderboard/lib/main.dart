@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:twwhdr_leaderboard/pages/home_page.dart';
 import 'package:twwhdr_leaderboard/pages/user/create_user_page.dart';
 import 'package:twwhdr_leaderboard/routes.dart' as routes;
 
 void main() async {
-  await dotenv.load(fileName: 'assets/.env');
   runApp(MainApp());
 }
 
